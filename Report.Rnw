@@ -44,7 +44,7 @@ Bitcoin is one the famous worldwide cryptocurrency available in the market. Firs
 This report is divided into three major sections. Section\ref{secDataset} covers a brief description of our dataset. Section \ref{secModels} covers the models that were chosen to fit dataset for bitcoin in USD while section \ref{secARIMA} covers the forecasting of bitcoin values using an Autoregressive Integrated Moving Average(ARIMA) model.
 
 \section{Dataset} \label{secDataset}
-The dataset has been downloaded from Kaggle.com, and contains seven CSV files which stores the minute to minute updates for OHLC(Open, High, Low, Close), Volume in BTC and the corresponding currency, and weighted price of the bitcoin. The time of these transactions have been stored as timestamps according to Unix conventions while the data for timestamps with no trade or activity have been stored as NaNs. \\
+The dataset has been downloaded from Kaggle.com, and contains seven CSV files which stores the minute to minute updates for OHLC(Open, High, Low, Close), Volume in BTC and the corresponding currency, and weighted price of the bitcoin. The time of these transactions have been stored as timestamps according to Unix conventions while the data for timestamps with no trade or activity have been stored as NaNs.
 
 The datasets are as follows:
 \begin{itemize}
@@ -73,7 +73,7 @@ In order to fit an exponential model to the Bitcoin opening values, we have take
 <<>>=
 #install.packages("DAAG")
 qreference<-DAAG::qreference
-csv<-read.csv('bitstampUSD_1-min_data_2012-01-01_to_2017-10-20.csv')
+csv<-read.csv('btceUSD_1-min_data_2012-01-01_to_2017-05-31.csv')
 csv2<-csv[complete.cases(csv), ]
 open<-csv2[,2]
 @
@@ -104,7 +104,7 @@ After trying to fit the exponential and poisson models to our distribution, we r
 Let us go through the rationale of doing so. First, we sample the bitstampUSD dataset for $100000$ random data points and then we plot the density of the same.
 
 <<fig=TRUE>>=
-bt <- csv
+bt <- csv2
 NSamples <- 100000
 bts <- bt[sample(length(bt$Timestamp),NSamples),]
 
@@ -117,7 +117,7 @@ curve(dexp(x,rate=1/mean.Open),add=TRUE)    # overlaying the exponential curve
 After plotting the density of the opening values of the dataset, we overlay an exponential density function curve on it. The curve seems to fit fairly well to our dataset and so we finally chose to simulate new sample points for our dataset with an exponential density function.
 
 <<fig=TRUE>>=
-bt <-csv
+bt <-csv2
 NSamples <- 100000            # number of samples 
 bts <- bt[sample(length(bt$Timestamp),NSamples),]    # selecting random sample points
 
@@ -136,7 +136,7 @@ Since our dataset contains a small peak around 2013, so it might be the case tha
 
 <<>>=
 ## clusters in dataset
-bt <- csv
+bt <- csv2
 NSamples <- 100000
 bts <- bt[sample(length(bt$Timestamp),NSamples),]
 
